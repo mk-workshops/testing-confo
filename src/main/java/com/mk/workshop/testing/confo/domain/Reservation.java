@@ -8,15 +8,14 @@ import java.util.Set;
 public class Reservation {
     private final ReservationId id;
     private final Set<Ticket> tickets;
-    private boolean closed = false;
+    private boolean closed;
     private BigDecimal totalCost;
     private LocalDateTime createDate;
 
-    public Reservation(ReservationId id, Set<Ticket> tickets, boolean closed, BigDecimal totalCost) {
+    public Reservation(ReservationId id, Set<Ticket> tickets) {
         this.id = id;
         this.tickets = tickets;
-        this.closed = closed;
-        this.totalCost = totalCost;
+        this.closed = false;
         this.createDate = LocalDateTime.now();
     }
 

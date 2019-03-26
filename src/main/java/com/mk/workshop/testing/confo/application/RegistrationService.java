@@ -4,6 +4,7 @@ import com.mk.workshop.testing.confo.domain.*;
 import com.mk.workshop.testing.confo.infrastructure.ConferenceDao;
 import com.mk.workshop.testing.confo.infrastructure.ConferenceRepository;
 import com.mk.workshop.testing.confo.infrastructure.PaypalPayments;
+import com.mk.workshop.testing.confo.infrastructure.TicketStatistics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +28,9 @@ public class RegistrationService {
     @Autowired
     private PaypalPayments paypalPayments;
 
+    @Autowired
+    private TicketStatistics ticketStatistics;
+
     public String confirmOrder(int orderId, int conferenceId)
     {
         Conference conference = conferenceRepository.get(new ConferenceId(conferenceId));
@@ -47,6 +51,8 @@ public class RegistrationService {
             BigDecimal regularPrice = ticketPrice.multiply(new BigDecimal(ticket.getQuantity()));
 
             totalCost = totalCost.add(regularPrice.min(discountedPrice));
+
+            ticketStatistics.count(ticket.getType(), ticket.getQuantity(), LocalDateTime.now());
         }
 
         conference.closeReservation(new OrderId(orderId), totalCost);
