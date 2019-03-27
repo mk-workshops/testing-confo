@@ -93,4 +93,8 @@ public class Conference {
     private class ReservationNotFound extends RuntimeException { }
 
     private class ReservationClosed extends RuntimeException { }
+
+    public ConferenceId getId() {
+        return id;
+    }
 }

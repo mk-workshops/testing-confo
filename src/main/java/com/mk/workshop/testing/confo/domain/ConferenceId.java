@@ -1,9 +1,8 @@
 package com.mk.workshop.testing.confo.domain;
 
-public class ConferenceId {
-    private int conferenceId;
+import lombok.Value;
 
-    public ConferenceId(int conferenceId) {
-        this.conferenceId = conferenceId;
-    }
+@Value
+public class ConferenceId {
+    private int raw;
 }

@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Set;
 
 @Component
 public class RegistrationService {
-    public static final int MAX_CONFIRMATION_TIME_IN_MINUTES = 15;
+    private static final int MAX_CONFIRMATION_TIME_IN_MINUTES = 15;
+
     @Autowired
     private ConferenceRepository conferenceRepository;
 
@@ -52,7 +55,7 @@ public class RegistrationService {
 
             totalCost = totalCost.add(regularPrice.min(discountedPrice));
 
-            ticketStatistics.count(ticket.getType(), ticket.getQuantity(), LocalDateTime.now());
+            ticketStatistics.count(conference.getId(), ticket.getType(), ticket.getQuantity(), LocalDateTime.now());
         }
 
         conference.closeReservation(new OrderId(orderId), totalCost);
